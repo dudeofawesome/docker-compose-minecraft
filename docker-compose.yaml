@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+  minecraft-server:
+    build:
+      context: '../docker-minecraft-server'
+      dockerfile: 'src/spigot/Containerfile'
+    environment:
+      MINECRAFT_VERSION: 'release'
+      EULA: 'true'
+      RAM_MAX: '8G'
+    env_file: '.env'
+    volumes:
+      - '/usr/local/etc/minecraft-server-data:/data'
+      - '/usr/local/lib/minecraft-server-jars:/server-jars'
+    ports:
+      - '25565:25565/tcp'
+      - '25565:25565/udp'
+      - '8123:8123' # dynmap http
+    deploy:
+      resources:
+        limits:
+          memory: 10G
+    restart: 'unless-stopped'
