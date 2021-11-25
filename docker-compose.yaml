@@ -1,10 +1,19 @@
 version: '3.9'
 
 services:
+  mcrcon:
+    container_name: 'mcrcon'
+    build:
+      context: '../docker-minecraft-server/src/mcrcon'
+      dockerfile: 'Containerfile'
+    entrypoint: 'echo done'
   minecraft-server:
+    container_name: 'minecraft-server'
     build:
       context: '../docker-minecraft-server'
-      dockerfile: 'src/spigot/Containerfile'
+      dockerfile: 'src/servers/papermc/Containerfile'
+      args:
+        MCRCON_IMAGE: 'docker-compose-minecraft_mcrcon'
     environment:
       MINECRAFT_VERSION: 'release'
       EULA: 'true'
